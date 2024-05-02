@@ -1,9 +1,12 @@
 const mongoose = require('mongoose');
 
 const visitSchema = new mongoose.Schema({
-  ip: String,
-  userAgent: String
-}, { timestamps: true });
+  timestamp: {
+    type: Date,
+    default: Date.now,
+    required: true
+  }
+});
 
 const urlSchema = new mongoose.Schema({
   originalURL: {

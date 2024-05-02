@@ -1,5 +1,5 @@
-const URL = require('../models/urlModel');
-const shortid = require('shortid');
+const URL = require("../models/urlModel");
+const shortid = require("shortid");
 
 exports.shortenURL = async (req, res) => {
   const { originalURL } = req.body;
@@ -13,7 +13,7 @@ exports.shortenURL = async (req, res) => {
       const shortURL = shortid.generate();
       const newURL = new URL({
         originalURL,
-        shortURL
+        shortURL,
       });
 
       url = await newURL.save();
@@ -21,7 +21,7 @@ exports.shortenURL = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Server error' });
+    res.status(500).json({ error: "Server error" });
   }
 };
 
@@ -35,6 +35,12 @@ exports.redirectURL = async (req, res) => {
       return res.status(404).json({ error: 'URL not found' });
     }
 
+    // Log visit information
+    url.visits.push({}); // Default timestamp will be applied
+
+    await url.save();
+
+    // Redirect user to the original URL
     res.redirect(url.originalURL);
   } catch (error) {
     console.error(error);
