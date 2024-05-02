@@ -1,16 +1,12 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const urlController = require("../controllers/urlController");
+const urlRoutes = require('./urlRoutes');
+const analyticsRoutes = require('./analyticsRoutes');
 
-// Define route for the home page
-router.get("/", (req, res) => {
-  res.send("Welcome to the URL shortener service!");
-});
+// URL routes
+router.use('/', urlRoutes);
 
-// Define route for URL shortening
-router.post("/shorten", urlController.shortenURL);
-
-// Define route for URL redirection
-router.get("/:shortURL", urlController.redirectURL);
+// Analytics routes
+router.use('/analytics', analyticsRoutes);
 
 module.exports = router;

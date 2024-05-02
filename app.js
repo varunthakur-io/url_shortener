@@ -1,7 +1,7 @@
 // Import required modules
 const express = require("express");
 const mongoose = require("mongoose");
-const routes = require("./routes/index");
+const indexRoutes = require("./routes/index");
 
 // Create Express app
 const app = express();
@@ -17,7 +17,7 @@ mongoose
   .catch((err) => console.error("Failed to connect to MongoDB", err));
 
 // Define routes
-app.use("/", routes);
+app.use("/", indexRoutes);
 
 // Start the server
 const PORT = process.env.PORT || 3000;
