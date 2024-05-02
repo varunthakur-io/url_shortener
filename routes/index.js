@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
 });
 
 // Define route for URL shortening
-// router.post('/shorten', urlController.shortenURL);
+router.post('/shorten', urlController.shortenURL);
 
 // Define route for URL redirection
 // router.get('/:shortURL', urlController.redirectURL);
