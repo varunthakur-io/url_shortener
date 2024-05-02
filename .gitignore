@@ -1,0 +1,11 @@
+# Dependency directories
+node_modules/
+
+# Environment variables
+.env
+
+# IDE/editor specific files
+.vscode/
+
+# Log files
+*.log
