@@ -1,7 +1,7 @@
 // Import required modules
 const express = require("express");
 const mongoose = require("mongoose");
-const indexRoutes = require("./routes/index");
+const staticRoute = require("./routes/staticRoutes");
 
 // Create Express app
 const app = express();
@@ -9,7 +9,7 @@ const app = express();
 // Define middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.set('view engine', 'ejs'); // Set EJS as the view engine
+app.set("view engine", "ejs"); // Set EJS as the view engine
 
 // Connect to MongoDB
 mongoose
@@ -18,7 +18,7 @@ mongoose
   .catch((err) => console.error("Failed to connect to MongoDB", err));
 
 // Define routes
-app.use("/", indexRoutes);
+app.use("/", staticRoute);
 
 // Start the server
 const PORT = process.env.PORT || 3000;
