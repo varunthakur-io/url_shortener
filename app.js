@@ -3,12 +3,14 @@ const express = require("express");
 const mongoose = require("mongoose");
 const staticRoute = require("./routes/staticRoutes");
 const userRoute = require("./routes/userRoutes");
+const cookieParser = require("cookie-parser");
 
 // Create Express app
 const app = express();
 
 // Define middleware
 app.use(express.json());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs"); // Set EJS as the view engine
 

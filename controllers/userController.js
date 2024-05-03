@@ -1,4 +1,6 @@
 const User = require("../models/userModel");
+const { v4: uuidv4 } = require("uuid");
+const { setUser } = require("../services/auth");
 
 exports.signup = async (req, res) => {
   const { name, email, password } = req.body;
@@ -20,6 +22,9 @@ exports.login = async (req, res) => {
   if (!user) {
     return res.redirect("/login?status=404");
   }
+  const session_id = uuidv4();
+  setUser(session_id);
+  res.cookie("session_id", session_id);
 
   return res.redirect("/?status=200");
 };
