@@ -9,6 +9,7 @@ const app = express();
 // Define middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.set('view engine', 'ejs'); // Set EJS as the view engine
 
 // Connect to MongoDB
 mongoose

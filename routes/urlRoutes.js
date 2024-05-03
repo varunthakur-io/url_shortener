@@ -4,7 +4,8 @@ const urlController = require("../controllers/urlController");
 
 // Define route for the home page
 router.get("/", (req, res) => {
-  res.send("Welcome to the URL shortener service!");
+  // res.send("Welcome to the URL shortener service!");
+  res.render("home")
 });
 
 // Route for shortening URL
