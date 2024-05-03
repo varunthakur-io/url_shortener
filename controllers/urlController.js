@@ -1,8 +1,16 @@
+// /controllers/urlController.js
 const URL = require("../models/urlModel");
 const shortid = require("shortid");
+const { getUser } = require("../services/auth");
 
 exports.shortenURL = async (req, res) => {
   const { originalURL } = req.body;
+  if (!req.cookies.session_id) return res.redirect("/login");
+  const user = getUser(req.cookies.session_id);
+  if (!user) return res.redirect("/login");
+
+  const createdBy = user._id;
+  // console.log(id);
 
   try {
     let url = await URL.findOne({ originalURL });
@@ -14,6 +22,7 @@ exports.shortenURL = async (req, res) => {
       const newURL = new URL({
         originalURL,
         shortURL,
+        createdBy,
       });
 
       url = await newURL.save();

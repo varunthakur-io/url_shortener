@@ -1,3 +1,4 @@
+// /controllers/userController.js
 const User = require("../models/userModel");
 const { v4: uuidv4 } = require("uuid");
 const { setUser } = require("../services/auth");
@@ -23,7 +24,7 @@ exports.login = async (req, res) => {
     return res.redirect("/login?status=404");
   }
   const session_id = uuidv4();
-  setUser(session_id);
+  setUser(session_id, user);
   res.cookie("session_id", session_id);
 
   return res.redirect("/?status=200");

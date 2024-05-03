@@ -1,19 +1,7 @@
+// routes/urlRoutes.js
 const express = require("express");
 const router = express.Router();
-const urlController = require("../controllers/urlController");
-const URL = require("../models/urlModel");
-
-// Define route for the home page
-router.get("/", async (req, res) => {
-  // res.send("Welcome to the URL shortener service!");
-
-  const urls = await URL.find({});
-  const id = req.query.id;
-  return res.render("home", {
-    urls: urls,
-    id: id,
-  });
-});
+const urlController = require("../controllers/urlController")
 
 // Route for shortening URL
 router.post("/shorten", urlController.shortenURL);
