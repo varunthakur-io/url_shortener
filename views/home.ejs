@@ -4,38 +4,69 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>URL Shortener</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        padding: 20px;
+      }
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      .form-container {
+        margin-bottom: 20px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        border: 1px solid #ccc;
+      }
+      th,
+      td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+    </style>
   </head>
-
   <body>
-    <h1>Welcome to URL Shortener!</h1>
-    <form action="/shorten" method="POST">
-      <label for="originalURL">Enter URL:</label>
-      <input type="text" id="originalURL" name="originalURL" required />
-      <button type="submit">Shorten</button>
-    </form>
-    <div>
-      <table>
-        <thead>
-          <tr>
-            <th>S.NO</th>
-            <th>Original URL</th>
-            <th>Shortened URL</th>
-            <th>Total Clicks</th>
-            <th>Created At</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% urls.forEach((url, index)=> { %>
-          <tr>
-            <td><%= index+1 %></td>
-            <td><%= url.originalURL %></td>
-            <td><a href="<%= url.shortURL %>"> <%= url.shortURL %> </a></td>
-            <td><%= url.visits.length %></td>
-            <td><%= url.createdAt.toLocaleString() %></td>
-          </tr>
-          <% }) %>
-        </tbody>
-      </table>
+    <div class="container">
+      <h1>Welcome to URL Shortener</h1>
+      <div class="form-container">
+        <form action="/shorten" method="POST">
+          <label for="originalURL">Enter URL:</label>
+          <input type="text" id="originalURL" name="originalURL" required />
+          <button type="submit">Shorten</button>
+        </form>
+      </div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>S.NO</th>
+              <th>Original URL</th>
+              <th>Shortened URL</th>
+              <th>Total Clicks</th>
+              <th>Created At</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% urls.forEach((url, index)=> { %>
+            <tr>
+              <td><%= index+1 %></td>
+              <td><%= url.originalURL %></td>
+              <td><a href="<%= url.shortURL %>"><%= url.shortURL %></a></td>
+              <td><%= url.visits.length %></td>
+              <td><%= url.createdAt.toLocaleString() %></td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
     </div>
   </body>
 </html>
