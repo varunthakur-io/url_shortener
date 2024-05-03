@@ -17,7 +17,8 @@ exports.shortenURL = async (req, res) => {
       });
 
       url = await newURL.save();
-      res.json(url);
+      // res.json(url);
+      res.redirect("/");
     }
   } catch (error) {
     console.error(error);
@@ -32,7 +33,7 @@ exports.redirectURL = async (req, res) => {
     const url = await URL.findOne({ shortURL });
 
     if (!url) {
-      return res.status(404).json({ error: 'URL not found' });
+      return res.status(404).json({ error: "URL not found" });
     }
 
     // Log visit information
@@ -44,6 +45,6 @@ exports.redirectURL = async (req, res) => {
     res.redirect(url.originalURL);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Server error' });
+    res.status(500).json({ error: "Server error" });
   }
 };
