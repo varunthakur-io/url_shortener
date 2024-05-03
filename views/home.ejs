@@ -1,16 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>URL Shortener</title>
-</head>
-<body>
+  </head>
+
+  <body>
     <h1>Welcome to URL Shortener!</h1>
     <form action="/shorten" method="POST">
-        <label for="originalURL">Enter URL:</label>
-        <input type="text" id="originalURL" name="originalURL" required>
-        <button type="submit">Shorten</button>
+      <label for="originalURL">Enter URL:</label>
+      <input type="text" id="originalURL" name="originalURL" required />
+      <button type="submit">Shorten</button>
     </form>
-</body>
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <th>S.NO</th>
+            <th>Original URL</th>
+            <th>Shortened URL</th>
+            <th>Total Clicks</th>
+            <th>Created At</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% urls.forEach((url, index)=> { %>
+          <tr>
+            <td><%= index+1 %></td>
+            <td><%= url.originalURL %></td>
+            <td><a href="<%= url.shortURL %>"> <%= url.shortURL %> </a></td>
+            <td><%= url.visits.length %></td>
+            <td><%= url.createdAt.toLocaleString() %></td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </body>
 </html>
