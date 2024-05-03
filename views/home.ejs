@@ -31,6 +31,28 @@
       th {
         background-color: #f2f2f2;
       }
+      .generated-url-container {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        padding: 10px;
+        background-color: #dff0d8;
+        border: 1px solid #000000;
+        border-radius: 5px;
+      }
+
+      .generated-url-container h5 {
+        margin-bottom: 5px;
+      }
+
+      .generated-url-container a {
+        color: #155724;
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      .generated-url-container a:hover {
+        text-decoration: underline;
+      }
     </style>
   </head>
   <body>
@@ -43,16 +65,18 @@
           <button type="submit">Shorten</button>
         </form>
       </div>
-      <div>
+      <div class="generated-url-container">
         <% if (locals.id) { %>
-        <div>
-          <h5>URL Generated</h5>
-          <a href="http://localhost:3000/<%= locals.id %>">
-            http://localhost:3000/<%= locals.id %>
-          </a>
-        </div>
+          <div>
+            <h5>URL Generated</h5>
+            <a href="http://localhost:3000/<%= locals.id %>">
+              http://localhost:3000/<%= locals.id %>
+            </a>
+          </div>
         <% } %>
       </div>
+      
+
       <div class="table-container">
         <table>
           <thead>
