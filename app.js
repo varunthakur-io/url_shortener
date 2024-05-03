@@ -2,6 +2,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const staticRoute = require("./routes/staticRoutes");
+const userRoute = require("./routes/userRoutes");
 
 // Create Express app
 const app = express();
@@ -19,6 +20,7 @@ mongoose
 
 // Define routes
 app.use("/", staticRoute);
+app.use("/user", userRoute);
 
 // Start the server
 const PORT = process.env.PORT || 3000;
