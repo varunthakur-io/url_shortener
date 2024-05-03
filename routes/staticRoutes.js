@@ -16,7 +16,7 @@ StaticRouter.get("/login", (req, res) => {
 });
 
 StaticRouter.get("/signup", (req, res) => {
-    res.send("hi from signup");
+  res.render("signup");
 });
 
 module.exports = StaticRouter;
