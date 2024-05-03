@@ -1,11 +1,11 @@
-<!-- signup.ejs -->
+<!-- login -->
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
+    <title>Login</title>
     <style>
         *{
             margin: 0;
@@ -60,12 +60,8 @@
     </style>
 </head>
 <body>
-    <form action="/user/signup" method="POST">
+    <form action="/user/login" method="POST">
         <h1>Sign Up</h1>
-        <div>
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required>
-        </div>
         <div>
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required>
@@ -74,7 +70,7 @@
             <label for="password">Password:</label>
             <input type="password" id="password" name="password" required>
         </div>
-        <button type="submit">Sign Up</button>
+        <button type="submit">Login</button>
     </form>
 </body>
 </html>

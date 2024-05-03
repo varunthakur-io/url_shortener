@@ -12,7 +12,7 @@ StaticRouter.get("/", async (req, res) => {
 });
 
 StaticRouter.get("/login", (req, res) => {
-  res.send("hi from login");
+  res.render("login");
 });
 
 StaticRouter.get("/signup", (req, res) => {
