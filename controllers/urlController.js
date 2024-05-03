@@ -17,8 +17,7 @@ exports.shortenURL = async (req, res) => {
       });
 
       url = await newURL.save();
-      // res.json(url);
-      res.redirect("/");
+      return res.redirect(`/?id=${shortURL}`);
     }
   } catch (error) {
     console.error(error);

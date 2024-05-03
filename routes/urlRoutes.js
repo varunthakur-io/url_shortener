@@ -8,8 +8,10 @@ router.get("/", async (req, res) => {
   // res.send("Welcome to the URL shortener service!");
 
   const urls = await URL.find({});
+  const id = req.query.id;
   return res.render("home", {
     urls: urls,
+    id: id,
   });
 });
 

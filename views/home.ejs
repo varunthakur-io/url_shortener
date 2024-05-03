@@ -43,6 +43,16 @@
           <button type="submit">Shorten</button>
         </form>
       </div>
+      <div>
+        <% if (locals.id) { %>
+        <div>
+          <h5>URL Generated</h5>
+          <a href="http://localhost:3000/<%= locals.id %>">
+            http://localhost:3000/<%= locals.id %>
+          </a>
+        </div>
+        <% } %>
+      </div>
       <div class="table-container">
         <table>
           <thead>
