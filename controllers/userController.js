@@ -25,6 +25,11 @@ exports.signup = async (req, res) => {
     email,
     password,
   });
-  
+
   res.redirect("/");
+};
+
+exports.logout = async (req, res) => {
+  res.clearCookie("session_id");
+  return res.redirect("/login");
 };

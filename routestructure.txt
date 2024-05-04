@@ -1,5 +1,0 @@
-/                   -> Home Page
-/login              -> Login Page
-/signup             -> SIgnup Page
-/url/:id            -> Short URLs
-/url/anlytics/:id   -> URLs Analytics
