@@ -1,8 +1,8 @@
 // routes/staticRoutes.js
 const express = require("express");
 const StaticRouter = express.Router();
+
 const URL = require("../models/urlModel");
-require("../services/auth");
 const restrictToLoggedIn = require("../middlewares/auth");
 
 StaticRouter.get("/", restrictToLoggedIn, async (req, res) => {
@@ -21,7 +21,7 @@ StaticRouter.get("/login", (req, res) => {
 
 StaticRouter.get("/signup", (req, res) => {
   if (req.cookies.session_id) return res.redirect("/");
-  res.render("signup");
+  return res.render("signup");
 });
 
 module.exports = StaticRouter;

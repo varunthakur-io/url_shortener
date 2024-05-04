@@ -83,8 +83,8 @@
       <div class="generated-url-container">
         <div>
           <h5>URL Generated</h5>
-          <a href="http://localhost:3000/<%= locals.id %>">
-            http://localhost:3000/<%= locals.id %>
+          <a href="http://localhost:3000/url/<%= locals.id %>">
+            http://localhost:3000/url/<%= locals.id %>
           </a>
         </div>
         <!-- Cross button -->
@@ -108,7 +108,7 @@
             <tr>
               <td><%= index+1 %></td>
               <td><%= url.originalURL %></td>
-              <td><a href="<%= url.shortURL %>"><%= url.shortURL %></a></td>
+              <td><a href="http://localhost:3000/url/<%= url.shortURL %>"><%= url.shortURL %></a></td>
               <td><%= url.visits.length %></td>
               <td><%= url.createdAt.toLocaleString() %></td>
             </tr>
