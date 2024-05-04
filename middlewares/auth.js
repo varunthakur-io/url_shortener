@@ -2,11 +2,14 @@
 const { getUser } = require("../services/auth");
 
 function restrictToLoggedIn(req, res, next) {
-  const session_id = req.cookies.session_id;
-  if (!session_id) return res.redirect("/login");
-  // console.log("hi form middleware");
-  const user = getUser(session_id);
-  if (!user) return res.redirect("/login");
+  const token = req.cookies.session_id;
+  if (!token) return res.redirect("/login");
+  const user = getUser(token);
+
+  if (!user) {
+    res.clearCookie("session_id");
+    return res.redirect("/login");
+  }
   req.user = user;
   next();
 }

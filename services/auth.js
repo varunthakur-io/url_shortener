@@ -1,11 +1,15 @@
 // services/auth.js
-const sessionToUser = new Map();
-
-function setUser(id, user) {
-  sessionToUser.set(id, user);
+const jwt = require("jsonwebtoken");
+const key = "varun";
+function setUser(user) {
+  return jwt.sign(JSON.stringify(user), key);
 }
-function getUser(id) {
-  return sessionToUser.get(id);
+function getUser(user) {
+  try {
+    return jwt.verify(user, key);
+  } catch (error) {
+    return null;
+  }
 }
 
 module.exports = {
