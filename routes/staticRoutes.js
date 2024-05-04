@@ -7,7 +7,10 @@ const { getUser } = require("../services/auth");
 StaticRouter.get("/", async (req, res) => {
   if (!req.cookies.session_id) return res.redirect("/login");
   const user = getUser(req.cookies.session_id);
-  if (!user) return res.redirect("/login");
+  if (!user) {
+    res.clearCookie("session_id");
+    return res.redirect("/login");
+  }
 
   const urls = await URL.find({ createdBy: user._id });
   const id = req.query.id;
@@ -18,10 +21,12 @@ StaticRouter.get("/", async (req, res) => {
 });
 
 StaticRouter.get("/login", (req, res) => {
-  res.render("login");
+  if (req.cookies.session_id) return res.redirect("/");
+  return res.render("login");
 });
 
 StaticRouter.get("/signup", (req, res) => {
+  if (req.cookies.session_id) return res.redirect("/");
   res.render("signup");
 });
 
