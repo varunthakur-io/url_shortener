@@ -2,17 +2,11 @@
 const express = require("express");
 const StaticRouter = express.Router();
 const URL = require("../models/urlModel");
-const { getUser } = require("../services/auth");
+require("../services/auth");
+const restrictToLoggedIn = require("../middlewares/auth");
 
-StaticRouter.get("/", async (req, res) => {
-  if (!req.cookies.session_id) return res.redirect("/login");
-  const user = getUser(req.cookies.session_id);
-  if (!user) {
-    res.clearCookie("session_id");
-    return res.redirect("/login");
-  }
-
-  const urls = await URL.find({ createdBy: user._id });
+StaticRouter.get("/", restrictToLoggedIn, async (req, res) => {
+  const urls = await URL.find({ createdBy: req.user._id });
   const id = req.query.id;
   return res.render("home", {
     urls: urls,

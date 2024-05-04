@@ -38,20 +38,34 @@
         background-color: #dff0d8;
         border: 1px solid #000000;
         border-radius: 5px;
+        position: relative; /* Make the container position relative */
       }
-
       .generated-url-container h5 {
         margin-bottom: 5px;
       }
-
       .generated-url-container a {
         color: #155724;
         text-decoration: none;
         font-weight: bold;
       }
-
       .generated-url-container a:hover {
         text-decoration: underline;
+      }
+      /* Style for the close button */
+      .closeButton {
+        position: absolute;
+        top: 30%;
+        right: 5px;
+        background-color: #000000;
+        color: white;
+        border: none;
+        /* border-radius: 50%; */
+        cursor: pointer;
+        padding: 5px;
+        font-size: 14px;
+      }
+      .closeButton:hover {
+        background-color: #d32f2f;
       }
     </style>
   </head>
@@ -67,15 +81,16 @@
       </div>
       <% if (locals.id) { %>
       <div class="generated-url-container">
-          <div>
-            <h5>URL Generated</h5>
-            <a href="http://localhost:3000/<%= locals.id %>">
-              http://localhost:3000/<%= locals.id %>
-            </a>
-          </div>
+        <div>
+          <h5>URL Generated</h5>
+          <a href="http://localhost:3000/<%= locals.id %>">
+            http://localhost:3000/<%= locals.id %>
+          </a>
         </div>
-        <% } %>
-      
+        <!-- Cross button -->
+        <button id="closeButton" class="closeButton">X</button>
+      </div>
+      <% } %>
 
       <div class="table-container">
         <table>
@@ -102,5 +117,20 @@
         </table>
       </div>
     </div>
+    <script>
+      // Get reference to the close button
+      const closeButton = document.getElementById("closeButton");
+      // Get reference to the element to hide
+      const popup = document.querySelector(".generated-url-container");
+
+      // Add event listener to the close button
+      closeButton.addEventListener("click", function () {
+        // Hide the element when the close button is clicked
+        popup.style.display = "none";
+        // Remove the id parameter from the URL
+        const urlWithoutId = window.location.href.split("?")[0];
+        window.history.replaceState({}, "", urlWithoutId);
+      });
+    </script>
   </body>
 </html>

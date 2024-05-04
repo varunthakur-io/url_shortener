@@ -23,9 +23,15 @@ exports.login = async (req, res) => {
   if (!user) {
     return res.redirect("/login?status=404");
   }
+
   const session_id = uuidv4();
   setUser(session_id, user);
   res.cookie("session_id", session_id);
+
+  // Check if user is already logged in
+  if (req.cookies.session_id) {
+    return res.redirect("/"); // Redirect to home page if already logged in
+  }
 
   return res.redirect("/?status=200");
 };
