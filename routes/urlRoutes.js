@@ -9,4 +9,6 @@ router.post("/shorten", urlController.shortenURL);
 // Route for redirecting shortened URL
 router.get("/:shortURL", urlController.redirectURL);
 
+router.get("/analytics",)
+
 module.exports = router;
