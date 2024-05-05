@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head') %>
+  </head>
+  <body class="d-flex flex-column min-vh-100">
+    <%- include('./partials/header') %>
+
+    <!-- Main Content -->
+    <div class="container my-auto">
+      <div class="row justify-content-center">
+        <div class="col-10 col-sm-8 col-md-6 col-lg-4">
+          <div class="card h-100 my-0">
+            <!-- Profile Picture -->
+            <img
+              src="cat.jpg"
+              class="card-img-top rounded-circle mx-auto mt-3 profile-pic"
+              style="width: 150px; height: 150px"
+              alt="Profile Picture"
+              onclick="document.getElementById('profilepic').click();"
+            />
+
+            <div class="card-body">
+              <form
+                action="user/profile"
+                method="post"
+                enctype="multipart/form-data"
+              >
+                <!-- Hidden file input -->
+                <input
+                  type="file"
+                  class="file-input d-none"
+                  id="profilepic"
+                  name="profilepic"
+                  onchange="document.getElementById('profile-pic-preview').src = window.URL.createObjectURL(this.files[0]);"
+                />
+
+                <div class="mb-3">
+                  <label for="name" class="form-label">Name:</label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    id="name"
+                    name="name"
+                    value=""
+                    readonly
+                  />
+                </div>
+
+                <div class="mb-3">
+                  <div class="input-group">
+                    <span class="input-group-text">@</span>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="username"
+                      placeholder="Username"
+                      value=""
+                      readonly
+                    />
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email:</label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    id="email"
+                    name="email"
+                    value=""
+                    readonly
+                  />
+                </div>
+
+                <div class="d-flex justify-content-between">
+                  <button type="button" class="btn btn-primary" id="editButton">
+                    Edit
+                  </button>
+                  <button
+                    type="submit"
+                    class="btn btn-danger d-none"
+                    id="saveButton"
+                  >
+                    Save
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  
+    <%- include('./partials/footer') %> <%- include('./partials/scripts') %>
+
+    <!-- Custom JavaScript -->
+    <script>
+      document
+        .getElementById("editButton")
+        .addEventListener("click", function () {
+          // Enable input fields for editing
+          document.querySelectorAll("input").forEach(function (element) {
+            element.removeAttribute("readonly");
+          });
+          // Show the Save button and hide the Edit button
+          document.getElementById("saveButton").classList.remove("d-none");
+          document.getElementById("editButton").classList.add("d-none");
+        });
+    </script>
+  </body>
+</html>

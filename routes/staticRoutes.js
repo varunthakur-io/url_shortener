@@ -25,8 +25,16 @@ StaticRouter.get("/signup", (req, res) => {
   return res.render("signup");
 });
 
-StaticRouter.get("/analytics", (req, res) => {
-  return res.render("analytics");
+StaticRouter.get("/analytics", restrictToLoggedIn, async (req, res) => {
+  const urls = await URL.find({ createdBy: req.user._id });
+
+  return res.render("analytics", {
+    urls: urls,
+  });
+});
+
+StaticRouter.get("/profile", (req, res) => {
+  return res.render("profile");
 });
 
 StaticRouter.get("/test", (req, res) => {

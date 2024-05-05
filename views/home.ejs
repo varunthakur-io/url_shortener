@@ -1,156 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>URL Shortener</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f0f0f0;
-        padding: 20px;
-      }
-      .container {
-        max-width: 800px;
-        margin: 0 auto;
-      }
-      .form-container {
-        margin-bottom: 20px;
-      }
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        border: 1px solid #ccc;
-      }
-      th,
-      td {
-        padding: 8px;
-        text-align: left;
-        border-bottom: 1px solid #ddd;
-      }
-      th {
-        background-color: #f2f2f2;
-      }
-      .generated-url-container {
-        margin-top: 20px;
-        margin-bottom: 20px;
-        padding: 10px;
-        background-color: #dff0d8;
-        border: 1px solid #000000;
-        border-radius: 5px;
-        position: relative; /* Make the container position relative */
-      }
-      .generated-url-container h5 {
-        margin-bottom: 5px;
-      }
-      .generated-url-container a {
-        color: #155724;
-        text-decoration: none;
-        font-weight: bold;
-      }
-      .generated-url-container a:hover {
-        text-decoration: underline;
-      }
-      /* Style for the close button */
-      .closeButton {
-        position: absolute;
-        top: 5px; /* Adjust top position */
-        right: 5px; /* Adjust right position */
-        background-color: #000000;
-        color: white;
-        border: none;
-        cursor: pointer;
-        padding: 5px;
-        font-size: 14px;
-      }
-      .closeButton:hover {
-        background-color: #d32f2f;
-      }
-      /* Style for logout button */
-      .logoutButton {
-        background-color: #dc3545;
-        color: #fff;
-        border: none;
-        border-radius: 4px;
-        padding: 10px 20px;
-        text-decoration: none;
-        cursor: pointer;
-        float: right; /* Align to right */
-        margin-top: -10px; /* Adjust top margin */
-      }
-      .logoutButton:hover {
-        background-color: #c82333;
-      }
-    </style>
+    <%- include('./partials/head') %>
   </head>
   <body>
-    <div class="container">
-      <!-- Logout button -->
-      <a href="/user/logout" class="logoutButton">Logout</a>
-      <h1>Welcome to URL Shortener</h1>
-      <div class="form-container">
-        <form action="/url/shorten" method="POST">
-          <label for="originalURL">Enter URL:</label>
-          <input type="text" id="originalURL" name="originalURL" required />
-          <button type="submit">Shorten</button>
-        </form>
-      </div>
-      <% if (locals.id) { %>
-      <div class="generated-url-container">
-        <div>
-          <h5>URL Generated</h5>
-          <a href="http://localhost:3000/url/<%= locals.id %>">
-            http://localhost:3000/url/<%= locals.id %>
-          </a>
-        </div>
-        <!-- Cross button -->
-        <button id="closeButton" class="closeButton">X</button>
-      </div>
-      <% } %>
+    <body class="d-flex flex-column min-vh-100">
+    <%- include('./partials/header') %>
 
-      <div class="table-container">
-        <table>
-          <thead>
-            <tr>
-              <th>S.NO</th>
-              <th>Original URL</th>
-              <th>Shortened URL</th>
-              <th>Total Clicks</th>
-              <th>Created At</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% urls.forEach((url, index)=> { %>
-            <tr>
-              <td><%= index+1 %></td>
-              <td><%= url.originalURL %></td>
-              <td>
-                <a href="http://localhost:3000/url/<%= url.shortURL %>"
-                  ><%= url.shortURL %></a
+
+      <!-- Main Content -->
+      <main class="container mt-5 flex-grow-1">
+        <div class="row">
+          <div class="col-md-8">
+            <h1>Welcome to URL Shortener</h1>
+            <p>Shorten your long URLs easily and share them with others.</p>
+
+            <!-- Alert for URL Shortened -->
+            <div
+              class="alert alert-success alert-dismissible fade show mt-3"
+              id="shortenedAlert"
+              role="alert"
+              style="display: none"
+            >
+              URL has been shortened successfully.
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="alert"
+                aria-label="Close"
+              ></button>
+            </div>
+
+            <!-- URL Shortening Form -->
+            <form action="/url/shorten" method="POST">
+              <div class="mb-3">
+                <label for="urlInput" class="form-label"
+                  >Enter URL to Shorten</label
                 >
-              </td>
-              <td><%= url.visits.length %></td>
-              <td><%= url.createdAt.toLocaleString() %></td>
-            </tr>
-            <% }) %>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <script>
-      // Get reference to the close button
-      const closeButton = document.getElementById("closeButton");
-      // Get reference to the element to hide
-      const popup = document.querySelector(".generated-url-container");
+                <input
+                  type="url"
+                  class="form-control"
+                  id="urlInput"
+                  name="originalURL"
+                  placeholder="Enter URL here"
+                  required
+                />
+              </div>
+              <button type="submit" class="btn btn-primary" id="shortenBtn">
+                Shorten URL
+              </button>
+            </form>
+          </div>
+        </div>
+      </main>
 
-      // Add event listener to the close button
-      closeButton.addEventListener("click", function () {
-        // Hide the element when the close button is clicked
-        popup.style.display = "none";
-        // Remove the id parameter from the URL
-        const urlWithoutId = window.location.href.split("?")[0];
-        window.history.replaceState({}, "", urlWithoutId);
-      });
-    </script>
+      <%- include('./partials/footer') %> <%- include('./partials/scripts') %>
+
+      <!-- Custom JavaScript -->
+      <script>
+        document
+          .getElementById("shortenBtn")
+          .addEventListener("click", function () {
+            document.getElementById("shortenedAlert").style.display = "block";
+          });
+      </script>
+    </body>
   </body>
 </html>

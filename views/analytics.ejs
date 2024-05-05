@@ -1,79 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>URL Analytics</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            padding: 20px;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        .analytics-container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .analytics-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .analytics-table th,
-        .analytics-table td {
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
-            text-align: left;
-        }
-        .analytics-table th {
-            background-color: #f2f2f2;
-        }
-        .no-data {
-            text-align: center;
-            color: #888;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>URL Analytics</h1>
-        <div class="analytics-container">
-            <h2>Analytics for: <a href="#" target="_blank">Shortened URL</a></h2>
-            <table class="analytics-table">
+  <head>
+    <%- include('./partials/head') %>
+  </head>
+  <body class="d-flex flex-column min-vh-100">
+    <%- include('./partials/header') %>
+
+    <!-- Main Content -->
+    <main class="container mt-5 flex-grow-1">
+      <div class="row">
+        <div class="col-md-8 offset-md-2">
+          <h1 class="mb-4">URL Analytics</h1>
+          <!-- <div class="card"> -->
+            <!-- <div class="card-body"> -->
+              <table class="table table-dark">
                 <thead>
-                    <tr>
-                        <th>Referral Source</th>
-                        <th>Total Clicks</th>
-                    </tr>
+                  <tr>
+                    <th scope="col-2">#</th>
+                    <th scope="col-2">Original URL</th>
+                    <th scope="col-2">Short URL</th>
+                    <th scope="col-2">Total Clicks</th>
+                  </tr>
                 </thead>
                 <tbody>
+                  <!-- <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                  </tr> -->
+                  <% urls.forEach((url, index)=> { %>
                     <tr>
-                        <td>Direct</td>
-                        <td>50</td>
+                      <td><%= index+1 %></td>
+                      <td><%= url.originalURL %></td>
+                      <td>
+                        <a href="http://localhost:3000/url/<%= url.shortURL %>"
+                          ><%= url.shortURL %></a
+                        >
+                      </td>
+                      <td><%= url.visits.length %></td>
                     </tr>
-                    <tr>
-                        <td>Google</td>
-                        <td>30</td>
-                    </tr>
-                    <tr>
-                        <td>Facebook</td>
-                        <td>20</td>
-                    </tr>
-                    <!-- Add more rows as needed -->
+                    <% }) %>
                 </tbody>
-            </table>
-            <p class="no-data">No analytics data available for this URL.</p>
+                
+              </table>
+            <!-- </div> -->
+          </div>
         </div>
-    </div>
-</body>
+      </div>
+    </main>
+
+    <%- include('./partials/footer') %> <%- include('./partials/scripts') %>
+  </body>
 </html>
