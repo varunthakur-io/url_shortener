@@ -15,6 +15,9 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs"); // Set EJS as the view engine
 
+// Set up static files serving
+app.use(express.static("./public"));
+
 // Connect to MongoDB
 mongoose
   .connect("mongodb://localhost/url-shortener")

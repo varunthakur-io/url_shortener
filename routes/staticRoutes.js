@@ -33,7 +33,7 @@ StaticRouter.get("/analytics", restrictToLoggedIn, async (req, res) => {
   });
 });
 
-StaticRouter.get("/profile", (req, res) => {
+StaticRouter.get("/profile", restrictToLoggedIn, (req, res) => {
   return res.render("profile");
 });
 
