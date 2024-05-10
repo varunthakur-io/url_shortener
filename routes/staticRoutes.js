@@ -34,7 +34,9 @@ StaticRouter.get("/analytics", restrictToLoggedIn, async (req, res) => {
 });
 
 StaticRouter.get("/profile", restrictToLoggedIn, (req, res) => {
-  return res.render("profile");
+  return res.render("profile", {
+    user: req.user,
+  });
 });
 
 StaticRouter.get("/test", (req, res) => {

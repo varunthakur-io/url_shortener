@@ -18,11 +18,12 @@ exports.login = async (req, res) => {
 };
 
 exports.signup = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, username, password } = req.body;
 
   await User.create({
     name,
     email,
+    username,
     password,
   });
 
