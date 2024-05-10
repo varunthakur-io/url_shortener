@@ -6,17 +6,17 @@ const { getUser } = require("../services/auth");
 exports.shortenURL = async (req, res) => {
   const { originalURL } = req.body;
   if (!req.cookies.session_id) return res.redirect("/login");
+
   const user = getUser(req.cookies.session_id);
   if (!user) return res.redirect("/login");
 
   const createdBy = user._id;
-  // console.log(id);
 
   try {
     let url = await URL.findOne({ originalURL });
 
     if (url) {
-      res.json(url);
+      return res.json({ msg: "URL_EXISTS" });
     } else {
       const shortURL = shortid.generate();
       const newURL = new URL({
@@ -26,7 +26,10 @@ exports.shortenURL = async (req, res) => {
       });
 
       url = await newURL.save();
-      return res.redirect(`/?id=${shortURL}`);
+      return res.json({
+        msg: "URL_SHORTNED",
+        id: shortURL,
+      });
     }
   } catch (error) {
     console.error(error);
