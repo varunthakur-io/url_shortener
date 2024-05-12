@@ -21,7 +21,7 @@ app.use(express.static("./public"));
 
 // Connect to MongoDB
 mongoose
-  .connect(`mongodb://localhost/${process.env.DB_NAME}`)
+  .connect(`mongodb://${process.env.DB_HOST}/${process.env.DB_NAME}`)
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("Failed to connect to MongoDB", err));
 
@@ -33,5 +33,5 @@ app.use("/url", urlRoute);
 // Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Server started at port ${PORT}`);
 });
