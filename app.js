@@ -1,6 +1,7 @@
 // Import required modules
 const express = require("express");
 const mongoose = require("mongoose");
+require("dotenv").config();
 const staticRoute = require("./routes/staticRoutes");
 const userRoute = require("./routes/userRoutes");
 const urlRoute = require("./routes/urlRoutes");
@@ -20,7 +21,7 @@ app.use(express.static("./public"));
 
 // Connect to MongoDB
 mongoose
-  .connect("mongodb://localhost/url-shortener")
+  .connect(`mongodb://localhost/${process.env.DB_NAME}`)
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("Failed to connect to MongoDB", err));
 

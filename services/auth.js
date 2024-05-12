@@ -1,6 +1,6 @@
 // services/auth.js
 const jwt = require("jsonwebtoken");
-const key = "varun";
+const key = `${process.env.JWT_SECRET}`;
 function setUser(user) {
   return jwt.sign(JSON.stringify(user), key);
 }
