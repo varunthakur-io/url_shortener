@@ -2,6 +2,7 @@
 const URL = require("../models/urlModel");
 const shortid = require("shortid");
 const { getUser } = require("../services/auth");
+const redisClient = require("../config/redis");
 
 exports.shortenURL = async (req, res) => {
   const { originalURL } = req.body;
@@ -26,8 +27,23 @@ exports.shortenURL = async (req, res) => {
       });
 
       url = await newURL.save();
+
+      // Fetch the existing cache
+      let cachedUrls = await redisClient.get("urls");
+
+      if (cachedUrls) {
+        // Parse the cached data
+        cachedUrls = JSON.parse(cachedUrls);
+
+        // Add the new URL to the cached data
+        cachedUrls.push(url);
+
+        // Save the updated cache back to Redis
+        redisClient.set("urls", JSON.stringify(cachedUrls));
+      }
+
       return res.json({
-        msg: "URL_SHORTNED",
+        msg: "URL_SHORTENED",
         id: shortURL,
       });
     }
