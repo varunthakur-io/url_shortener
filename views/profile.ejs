@@ -21,21 +21,17 @@
             />
 
             <div class="card-body">
-              <form
-                action="user/profile"
-                method="post"
-                enctype="multipart/form-data"
-              >
+              <form action="user/profile" method="post">
                 <!-- Hidden file input -->
-                <input
+                <!-- <input
                   type="file"
                   class="file-input d-none"
                   id="profilepic"
                   name="profilepic"
                   disabled="true"
                   onchange="document.getElementById('profile-pic-preview').src = window.URL.createObjectURL(this.files[0]);"
-                />
-
+                /> -->
+                <!-- name  -->
                 <div class="mb-3">
                   <label for="name" class="form-label">Name:</label>
                   <input
@@ -47,7 +43,7 @@
                     readonly
                   />
                 </div>
-
+                <!-- username -->
                 <div class="mb-3">
                   <div class="input-group">
                     <span class="input-group-text">@</span>
@@ -55,13 +51,14 @@
                       type="text"
                       class="form-control"
                       id="username"
+                      name="username"
                       placeholder="Username"
                       value="<%= user.username %>"
                       readonly
                     />
                   </div>
                 </div>
-
+                <!-- email  -->
                 <div class="mb-3">
                   <label for="email" class="form-label">Email:</label>
                   <input
@@ -75,9 +72,12 @@
                 </div>
 
                 <div class="d-flex justify-content-between">
+                  <!-- edit button  -->
                   <button type="button" class="btn btn-primary" id="editButton">
                     Edit
                   </button>
+
+                  <!-- save button  -->
                   <button
                     type="submit"
                     class="btn btn-danger d-none"
@@ -104,9 +104,9 @@
           document.querySelectorAll("input").forEach(function (element) {
             element.removeAttribute("readonly");
           });
-          const uploader = document.getElementById("profilepic");
-          uploader.disabled = false;
-          uploader.style.pointer = "cursor";
+          // const uploader = document.getElementById("profilepic");
+          // uploader.disabled = false;
+          // uploader.style.pointer = "cursor";
           // Show the Save button and hide the Edit button
           document.getElementById("saveButton").classList.remove("d-none");
           document.getElementById("editButton").classList.add("d-none");

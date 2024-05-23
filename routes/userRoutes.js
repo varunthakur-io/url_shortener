@@ -9,6 +9,6 @@ router.post("/login", userController.login);
 router.post("/signup", userController.signup);
 router.get("/logout", userController.logout);
 
-// router.post("/profile", restrictToLoggedIn, userController.updateUser);
+router.post("/profile", restrictToLoggedIn, userController.updateUser);
 
 module.exports = router;

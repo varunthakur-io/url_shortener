@@ -34,3 +34,28 @@ exports.logout = async (req, res) => {
   res.clearCookie("session_id");
   return res.redirect("/login");
 };
+
+exports.updateUser = async (req, res) => {
+  const userId = req.user._id;
+  const { name, email, username } = req.body;
+
+  try {
+    // Find the user by their ID and update their name and email
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { name, email, username },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    const token = setUser(updatedUser);
+    res.cookie("session_id", token);
+
+    res.redirect("/profile");
+  } catch (error) {
+    console.error("Error updating user:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
