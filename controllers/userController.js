@@ -40,19 +40,30 @@ exports.updateUser = async (req, res) => {
   const { name, email, username } = req.body;
 
   try {
-    // Find the user by their ID and update their name and email
-    const updatedUser = await User.findByIdAndUpdate(
-      userId,
-      { name, email, username },
-      { new: true }
-    );
+    // Prepare the update object
+    const updateData = { name, email, username };
+
+    // Check if a new profile picture file is uploaded
+    if (req.file) {
+      // Strip 'public' from the beginning of the path
+      const profilePicPath = req.file.path.replace(/\\/g, '/').replace(/^public\//, '');
+      updateData.profilePic = profilePicPath;
+    }
+
+    // Find the user by their ID and update their details
+    const updatedUser = await User.findByIdAndUpdate(userId, updateData, {
+      new: true,
+    });
 
     if (!updatedUser) {
       return res.status(404).json({ message: "User not found" });
     }
+
+    // Generate a new token and set it in the cookie
     const token = setUser(updatedUser);
     res.cookie("session_id", token);
 
+    // Redirect to the profile page
     res.redirect("/profile");
   } catch (error) {
     console.error("Error updating user:", error);

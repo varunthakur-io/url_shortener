@@ -20,10 +20,14 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    profilePic: {
+      type: String,
+      default: "default.png", // Default profile picture
+    },
   },
   { timestamps: true }
 );
 
-const User = mongoose.model('user', UserSchema);
+const User = mongoose.model("User", UserSchema);
 
 module.exports = User;
