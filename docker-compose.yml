@@ -1,15 +1,22 @@
-# version: 'version' not required
-
 services:
-  # MongoDB services
+  # MongoDB service
   mongo_db:
     container_name: db_container
     image: mongo:latest
     restart: always
     ports:
-      - 2717:27017
+      - 27017:27017
     volumes:
       - my_mongo_data:/data/db
+
+  # Redis service
+  redis:
+    container_name: redis_container
+    image: redis/redis-stack:latest
+    restart: always
+    ports:
+      - 6379:6379
+      - 8001:8001
 
   # Node service
   api:
@@ -18,14 +25,19 @@ services:
       - 3000:3000
     volumes:
       - .:/usr/src/app
-
     environment:
       # Database Configuration
       DB_HOST: mongo_db
       DB_PORT: 27017
       DB_NAME: myurlshortener
+
+      # Redis Configuration
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+
     depends_on:
       - mongo_db
+      - redis
 
 volumes:
   my_mongo_data: {}

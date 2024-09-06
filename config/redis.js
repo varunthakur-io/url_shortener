@@ -1,9 +1,16 @@
 const redis = require("redis");
 
 // Create a Redis client
+// const redisClient = redis.createClient({
+//   url: "redis://localhost:6379", // Redis server URL
+// });
+
+// Use the Redis service name from Docker Compose instead of localhost
 const redisClient = redis.createClient({
-  url: "redis://localhost:6379", // Redis server URL
+  url: `redis://${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`,
 });
+
+
 
 redisClient
   .connect()
