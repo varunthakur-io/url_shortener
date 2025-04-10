@@ -26,7 +26,8 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - .:/usr/src/app
+      - .:/usr/src/app         # Your source code
+      - /usr/src/app/node_modules  # Preserve container's node_modules
     environment:
       # MongoDB Configuration
       DB_HOST: mongo_db
@@ -42,4 +43,5 @@ services:
       - redis
 
 volumes:
-  my_mongo_data: {}
+  my_mongo_data:
+    name: my_mongo_data
