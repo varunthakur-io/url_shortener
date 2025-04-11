@@ -5,8 +5,10 @@
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js"
+    "dev": "nodemon --legacy-watch index.js"
+    
   },
+  
   "author": "",
   "license": "ISC",
   "dependencies": {

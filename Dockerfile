@@ -1,9 +1,17 @@
 FROM node:alpine
+
+# Create app directory
 WORKDIR /usr/src/app
 
-COPY package*.json .
+# Install nodemon globally
+RUN npm install -g nodemon
 
+# Install app dependencies
+COPY package*.json ./
 RUN npm ci
+
+# Copy rest of the app
 COPY . .
 
-CMD [ "npm", "run", "dev"]
+# Default command
+CMD [ "nodemon", "--legacy-watch", "index.js" ]

@@ -1,47 +1,47 @@
 services:
-  # MongoDB service
-  mongo_db:
-    container_name: db_container
+  # 🗄️ MongoDB Service
+  mongodb:
+    container_name: mongodb_container
     image: mongo:latest
     restart: always
     ports:
       - 27017:27017
     volumes:
-      - my_mongo_data:/data/db
+      - mongodb_data:/data/db
 
-  # Redis service
-  redis:
-    container_name: redis_container
+  # 🔁 Redis Service
+  redis_stack:
+    container_name: redis_stack_container
     image: redis/redis-stack:latest
     restart: always
     ports:
       - 6379:6379
       - 8001:8001
 
-  # Node service
-  api:
-    build: . # Uses Dockerfile in current directory
-    image: url_shortener:latest 
-    container_name: url_shortener
+  # 🚀 Node.js API Service
+  url_shortener_api:
+    build: .
+    image: url_shortener_app:latest 
+    container_name: url_shortener_container
     ports:
       - 3000:3000
     volumes:
-      - .:/usr/src/app         # Your source code
-      - /usr/src/app/node_modules  # Preserve container's node_modules
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
     environment:
       # MongoDB Configuration
-      DB_HOST: mongo_db
+      DB_HOST: mongodb
       DB_PORT: 27017
-      DB_NAME: myurlshortener
+      DB_NAME: url_shortener_db
 
       # Redis Configuration
-      REDIS_HOST: redis
+      REDIS_HOST: redis_stack
       REDIS_PORT: 6379
-
+    command: npm run dev
     depends_on:
-      - mongo_db
-      - redis
+      - mongodb
+      - redis_stack
 
 volumes:
-  my_mongo_data:
-    name: my_mongo_data
+  mongodb_data:
+    name: mongodb_data
