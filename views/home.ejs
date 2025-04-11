@@ -55,9 +55,16 @@
       const form = document.querySelector("#myForm");
       const alertElement = document.getElementById("shortenedAlert");
       const alertMsg = document.getElementById("alertMsg");
+      const submitButton = document.getElementById("shortenBtn");
+      const urlInput = document.getElementById("urlInput");
 
       form.addEventListener("submit", async function (event) {
         event.preventDefault();
+
+        // Clear previous alert and disable the submit button
+        alertElement.style.display = "none";
+        alertMsg.innerText = "";
+        submitButton.disabled = true;
 
         const formData = new FormData(this);
         const data = new URLSearchParams(formData);
@@ -75,31 +82,31 @@
             const responseData = await response.json();
             if (responseData.msg === "URL_EXISTS") {
               alertMsg.innerText = "URL has already been shortened!";
-              alertElement.style.display = "block";
-            }
-            if (responseData.msg === "URL_SHORTNED") {
+            } else if (responseData.msg === "URL_SHORTENED") {
               alertMsg.innerText = "URL has been shortened successfully.";
-              alertElement.style.display = "block";
             }
+            alertElement.style.display = "block";
           } else {
-            console.error(
-              "Server responded with an error:",
-              response.statusText
-            );
+            console.error("Server responded with an error:", response.statusText);
+            alertMsg.innerText = "An error occurred. Please try again.";
+            alertElement.style.display = "block";
           }
         } catch (error) {
           console.error("Error:", error);
+          alertMsg.innerText = "An unexpected error occurred. Please try again.";
+          alertElement.style.display = "block";
+        } finally {
+          // Clear the input field, focus it, and re-enable the submit button
+          urlInput.value = "";
+          urlInput.focus();
+          submitButton.disabled = false;
         }
       });
 
       // Event listener for closing the alert
-      alertElement
-        .querySelector(".btn-close")
-        .addEventListener("click", function () {
-          console.log(alertElement);
-          alertElement.style;
-          alertElement.style.display = "none";
-        });
+      alertElement.querySelector(".btn-close").addEventListener("click", function () {
+        alertElement.style.display = "none";
+      });
     </script>
   </body>
 </html>
