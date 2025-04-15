@@ -55,8 +55,11 @@ exports.signup = async (req, res) => {
 
     await newUser.save();
 
-    // Redirect to login page after successful signup
+    // Log in the user after successful signup
+    const token = setUser(newUser);
+    res.cookie("session_id", token);
     res.redirect("/login");
+    
   } catch (error) {
     console.error("Error during signup:", error);
     res.status(500).send("Server error during signup");
