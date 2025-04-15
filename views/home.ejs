@@ -107,6 +107,25 @@
       alertElement.querySelector(".btn-close").addEventListener("click", function () {
         alertElement.style.display = "none";
       });
+
+      // Add the random URL generation code here
+      function generateRandomURL() {
+        const domains = ["example.com", "testsite.org", "mywebsite.net", "random.io"];
+        const paths = ["about", "contact", "products", "services", "blog"];
+        const randomDomain = domains[Math.floor(Math.random() * domains.length)];
+        const randomPath = paths[Math.floor(Math.random() * paths.length)];
+        const randomQuery = `?id=${Math.floor(Math.random() * 1000)}`;
+        return `https://${randomDomain}/${randomPath}${randomQuery}`;
+      }
+
+      function fillRandomURL() {
+        if (urlInput) {
+          urlInput.value = generateRandomURL();
+        }
+      }
+
+      // Automatically fill the input field with a random URL when the page loads
+      document.addEventListener("DOMContentLoaded", fillRandomURL);
     </script>
   </body>
 </html>
