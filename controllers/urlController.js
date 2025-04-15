@@ -39,7 +39,7 @@ exports.shortenURL = async (req, res) => {
         cachedUrls.push(url);
 
         // Save the updated cache back to Redis
-        redisClient.set("urls", JSON.stringify(cachedUrls));
+        redisClient.set("urls", JSON.stringify(cachedUrls), "EX", 3600); // Cache expires in 1 hour
       }
 
       return res.json({
@@ -70,7 +70,7 @@ exports.redirectURL = async (req, res) => {
         url.visits.push({ timestamp: new Date() });
 
         // Update the Redis cache
-        redisClient.set("urls", JSON.stringify(cachedUrls));
+        redisClient.set("urls", JSON.stringify(cachedUrls), "EX", 3600); // Cache expires in 1 hour
 
         // Redirect to the original URL
         return res.redirect(url.originalURL);
@@ -94,7 +94,7 @@ exports.redirectURL = async (req, res) => {
     } else {
       cachedUrls = [url];
     }
-    redisClient.set("urls", JSON.stringify(cachedUrls));
+    redisClient.set("urls", JSON.stringify(cachedUrls), "EX", 3600); // Cache expires in 1 hour
 
     // Redirect to the original URL
     res.redirect(url.originalURL);
@@ -118,7 +118,7 @@ exports.deleteURL = async (req, res) => {
     let cachedUrls = await redisClient.get("urls");
     if (cachedUrls) {
       cachedUrls = JSON.parse(cachedUrls).filter((cachedUrl) => cachedUrl._id !== id);
-      redisClient.set("urls", JSON.stringify(cachedUrls));
+      redisClient.set("urls", JSON.stringify(cachedUrls), "EX", 3600); // Cache expires in 1 hour
     }
 
     return res.status(200).json({ message: "URL deleted successfully" });
