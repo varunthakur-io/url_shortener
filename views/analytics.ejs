@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <%- include('./partials/head') %>
-  </head>
-  <body class="d-flex flex-column min-vh-100">
-    <%- include('./partials/header') %>
+
+<head>
+  <%- include('./partials/head') %>
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+  <%- include('./partials/header') %>
 
     <!-- Main Content -->
     <main class="container mt-5 flex-grow-1">
@@ -18,31 +20,71 @@
                 <th scope="col" class="text-center">Original URL</th>
                 <th scope="col" class="text-center">Short URL</th>
                 <th scope="col" class="text-center">Total Clicks</th>
+                <th scope="col" class="text-center">Actions</th>
               </tr>
             </thead>
             <tbody>
-              <% urls.forEach((url, index) => { %>
+              <% urls.forEach((url, index)=> { %>
                 <tr>
-                  <td class="text-center"><%= index + 1 %></td>
+                  <td class="text-center">
+                    <%= index + 1 %>
+                  </td>
                   <td class="text-truncate" style="max-width: 200px;">
                     <a href="<%= url.originalURL %>" target="_blank" class="text-decoration-none text-primary">
                       <%= url.originalURL %>
                     </a>
                   </td>
                   <td class="text-center">
-                    <a href="http://localhost:3000/url/<%= url.shortURL %>" target="_blank" class="text-decoration-none text-success">
+                    <a href="http://localhost:3000/url/<%= url.shortURL %>" target="_blank"
+                      class="text-decoration-none text-success">
                       <%= url.shortURL %>
                     </a>
                   </td>
-                  <td class="text-center"><%= url.visits.length %></td>
+                  <td class="text-center">
+                    <%= url.visits.length %>
+                  </td>
+                  <td class="text-center">
+                    <button class="btn btn-danger btn-sm delete-btn" data-id="<%= url._id %>">
+                      Delete
+                    </button>
+                  </td>
                 </tr>
-              <% }) %>
+                <% }) %>
             </tbody>
           </table>
         </div>
       </div>
     </main>
 
-    <%- include('./partials/footer') %> <%- include('./partials/scripts') %>
-  </body>
+    <%- include('./partials/footer') %>
+      <%- include('./partials/scripts') %>
+
+        <script>
+          // Add event listeners to all delete buttons
+          document.querySelectorAll(".delete-btn").forEach((button) => {
+            button.addEventListener("click", async function () {
+              const urlId = this.getAttribute("data-id");
+
+              if (confirm("Are you sure you want to delete this URL?")) {
+                try {
+                  const response = await fetch(`/url/${urlId}`, {
+                    method: "DELETE",
+                  });
+
+                  if (response.ok) {
+                    alert("URL deleted successfully!");
+                    location.reload(); // Reload the page to update the table
+                  } else {
+                    alert("Failed to delete the URL. Please try again.");
+                  }
+                } catch (error) {
+                  console.error("Error deleting URL:", error);
+                  alert("An error occurred. Please try again.");
+                }
+              }
+            });
+          });
+        </script>
+</body>
+
 </html>

@@ -75,3 +75,27 @@ exports.redirectURL = async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 };
+
+exports.deleteURL = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const url = await URL.findByIdAndDelete(id);
+
+    if (!url) {
+      return res.status(404).json({ error: "URL not found" });
+    }
+
+    // Optionally, update the Redis cache if needed
+    let cachedUrls = await redisClient.get("urls");
+    if (cachedUrls) {
+      cachedUrls = JSON.parse(cachedUrls).filter((cachedUrl) => cachedUrl._id !== id);
+      redisClient.set("urls", JSON.stringify(cachedUrls));
+    }
+
+    return res.status(200).json({ message: "URL deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting URL:", error);
+    return res.status(500).json({ error: "Server error" });
+  }
+};
