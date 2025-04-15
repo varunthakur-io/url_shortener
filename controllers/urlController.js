@@ -57,18 +57,46 @@ exports.redirectURL = async (req, res) => {
   const { shortURL } = req.params;
 
   try {
-    const url = await URL.findOne({ shortURL });
+    // Check if the URL exists in the Redis cache
+    let cachedUrls = await redisClient.get("urls");
+    let url;
+
+    if (cachedUrls) {
+      cachedUrls = JSON.parse(cachedUrls);
+      url = cachedUrls.find((cachedUrl) => cachedUrl.shortURL === shortURL);
+
+      if (url) {
+        // Increment the visit count in the cache
+        url.visits.push({ timestamp: new Date() });
+
+        // Update the Redis cache
+        redisClient.set("urls", JSON.stringify(cachedUrls));
+
+        // Redirect to the original URL
+        return res.redirect(url.originalURL);
+      }
+    }
+
+    // If not found in the cache, fetch from the database
+    url = await URL.findOne({ shortURL });
 
     if (!url) {
       return res.status(404).json({ error: "URL not found" });
     }
 
-    // Log visit information
+    // Log visit information in the database
     url.visits.push({}); // Default timestamp will be applied
-
     await url.save();
 
-    // Redirect user to the original URL
+    // Update the Redis cache with the latest data
+    if (cachedUrls) {
+      cachedUrls.push(url);
+    } else {
+      cachedUrls = [url];
+    }
+    redisClient.set("urls", JSON.stringify(cachedUrls));
+
+    // Redirect to the original URL
     res.redirect(url.originalURL);
   } catch (error) {
     console.error(error);
