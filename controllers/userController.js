@@ -1,34 +1,68 @@
-// /controllers/userController.js
+const bcrypt = require("bcrypt");
 const User = require("../models/userModel");
 // const { v4: uuidv4 } = require("uuid");
 const { setUser } = require("../services/auth");
 
 exports.login = async (req, res) => {
   const { email, password } = req.body;
-  const user = await User.findOne({ email, password });
 
-  if (!user) {
-    return res.redirect("/login?status=404");
+  try {
+    // Find the user by email
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Compare the provided password with the hashed password
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
+
+    const token = setUser(user);
+    res.cookie("session_id", token);
+
+    return res.redirect("/?status=200");
+  } catch (error) {
+    console.error("Error during login:", error);
+    res.status(500).json({ error: "Server error" });
   }
-
-  const token = setUser(user);
-  res.cookie("session_id", token);
-
-  return res.redirect("/?status=200");
 };
 
 exports.signup = async (req, res) => {
   const { name, email, username, password } = req.body;
 
-  await User.create({
-    name,
-    email,
-    username,
-    password,
-  });
+  try {
+    // Check if a user with the same email or username already exists
+    const existingUser = await User.findOne({
+      $or: [{ email }, { username }]
+    });
 
-  res.redirect("/");
+    if (existingUser) {
+      return res.status(400).send("Email or username already in use");
+    }
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create a new user with the hashed password
+    const newUser = new User({
+      name,
+      email,
+      username,
+      password: hashedPassword,
+    });
+
+    await newUser.save();
+
+    // Redirect to login page after successful signup
+    res.redirect("/login");
+  } catch (error) {
+    console.error("Error during signup:", error);
+    res.status(500).send("Server error during signup");
+  }
 };
+
 
 exports.logout = async (req, res) => {
   res.clearCookie("session_id");
