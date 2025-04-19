@@ -10,7 +10,8 @@ exports.login = async (req, res) => {
     // Find the user by email
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(404).json({ error: "User not found" });
+      return res.redirect("/login?status=404&error=User not found");
+      // return res.status(404).json({ error: "User not found" });
     }
 
     // Compare the provided password with the hashed password
