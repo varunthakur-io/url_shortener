@@ -36,7 +36,7 @@ exports.signup = async (req, res) => {
   try {
     // Check if a user with the same email or username already exists
     const existingUser = await User.findOne({
-      $or: [{ email }, { username }]
+      $or: [{ email }, { username }],
     });
 
     if (existingUser) {
@@ -60,13 +60,11 @@ exports.signup = async (req, res) => {
     const token = setUser(newUser);
     res.cookie("session_id", token);
     res.redirect("/login");
-    
   } catch (error) {
     console.error("Error during signup:", error);
     res.status(500).send("Server error during signup");
   }
 };
-
 
 exports.logout = async (req, res) => {
   res.clearCookie("session_id");
@@ -84,7 +82,9 @@ exports.updateUser = async (req, res) => {
     // Check if a new profile picture file is uploaded
     if (req.file) {
       // Strip 'public' from the beginning of the path
-      const profilePicPath = req.file.path.replace(/\\/g, '/').replace(/^public\//, '');
+      const profilePicPath = req.file.path
+        .replace(/\\/g, "/")
+        .replace(/^public\//, "");
       updateData.profilePic = profilePicPath;
     }
 
