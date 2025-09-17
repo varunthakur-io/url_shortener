@@ -7,7 +7,7 @@ function setUser(user) {
 function getUser(user) {
   try {
     return jwt.verify(user, key);
-  } catch (error) {
+  } catch {
     return null;
   }
 }

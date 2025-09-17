@@ -21,7 +21,7 @@ services:
   # 🚀 Node.js API Service
   url_shortener_api:
     build: .
-    image: url_shortener_app:latest 
+    image: url_shortener_app:latest
     container_name: url_shortener_container
     ports:
       - 3000:3000
