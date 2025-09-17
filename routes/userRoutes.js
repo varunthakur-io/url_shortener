@@ -1,20 +1,20 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const upload = require("../middlewares/uploadMiddleware");
+import upload from "../middlewares/uploadMiddleware.js";
 
-const userController = require("../controllers/userController");
-const restrictToLoggedIn = require("../middlewares/auth");
+import { login, signup, logout, updateUser } from "../controllers/userController.js";
+import restrictToLoggedIn from "../middlewares/auth.js";
 
 // Route for user signup
-router.post("/login", userController.login);
-router.post("/signup", userController.signup);
-router.get("/logout", userController.logout);
+router.post("/login", login);
+router.post("/signup", signup);
+router.get("/logout", logout);
 
 router.post(
   "/profile",
   restrictToLoggedIn,
   upload.single("profilepic"),
-  userController.updateUser
+  updateUser
 );
 
-module.exports = router;
+export default router;

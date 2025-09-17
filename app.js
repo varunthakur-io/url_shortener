@@ -1,11 +1,11 @@
 // Import required modules
-const express = require("express");
-const mongoose = require("mongoose");
-require("dotenv").config();
-const staticRoute = require("./routes/staticRoutes");
-const userRoute = require("./routes/userRoutes");
-const urlRoute = require("./routes/urlRoutes");
-const cookieParser = require("cookie-parser");
+import express from "express";
+import mongoose from "mongoose";
+import "dotenv/config";
+import staticRoute from "./routes/staticRoutes.js";
+import userRoute from "./routes/userRoutes.js";
+import urlRoute from "./routes/urlRoutes.js";
+import cookieParser from "cookie-parser";
 
 // Create Express app
 const app = express();

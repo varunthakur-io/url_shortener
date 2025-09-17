@@ -1,13 +1,13 @@
-const globals = require("globals");
-const pluginJs = require("@eslint/js");
-const pluginPrettier = require("eslint-plugin-prettier");
-const configPrettier = require("eslint-config-prettier");
+import globals from "globals";
+import pluginJs from "@eslint/js";
+import pluginPrettier from "eslint-plugin-prettier";
+import configPrettier from "eslint-config-prettier";
 
-module.exports = [
+export default [
   {
     languageOptions: {
       ecmaVersion: 2021,
-      sourceType: "commonjs",
+      sourceType: "module",
       globals: {
         ...globals.node,
       },

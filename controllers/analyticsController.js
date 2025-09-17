@@ -1,6 +1,6 @@
-const URL = require("../models/urlModel");
+import URL from "../models/urlModel.js";
 
-exports.getAnalytics = async (req, res) => {
+export const getAnalytics = async (req, res) => {
   try {
     const short_id = req.params.shortURL;
     const result = await URL.findOne({ shortURL: short_id });

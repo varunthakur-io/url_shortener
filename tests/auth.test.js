@@ -1,8 +1,8 @@
 /* eslint-env jest */
 /* global jest, describe, it, expect */
 
-const { setUser, getUser } = require("../services/auth");
-const jwt = require("jsonwebtoken");
+import { setUser, getUser } from "../services/auth.js";
+import jwt from "jsonwebtoken";
 
 // Mock the jsonwebtoken library
 jest.mock("jsonwebtoken");

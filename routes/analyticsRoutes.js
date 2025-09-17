@@ -1,8 +1,8 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const analyticsController = require("../controllers/analyticsController");
+import { getAnalytics } from "../controllers/analyticsController.js";
 
 // Route for getting analytics data for a specific URL
-router.get("/:shortURL", analyticsController.getAnalytics);
+router.get("/:shortURL", getAnalytics);
 
-module.exports = router;
+export default router;

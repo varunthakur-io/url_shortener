@@ -1,15 +1,15 @@
 // routes/urlRoutes.js
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const urlController = require("../controllers/urlController");
+import { shortenURL, redirectURL, deleteURL } from "../controllers/urlController.js";
 
 // Route for shortening URL
-router.post("/shorten", urlController.shortenURL);
+router.post("/shorten", shortenURL);
 
 // Route for redirecting shortened URL
-router.get("/:shortURL", urlController.redirectURL);
+router.get("/:shortURL", redirectURL);
 
 // Route for deleting a URL
-router.delete("/:id", urlController.deleteURL);
+router.delete("/:id", deleteURL);
 
-module.exports = router;
+export default router;

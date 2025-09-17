@@ -1,5 +1,5 @@
 // middlewares/auth.js
-const { getUser } = require("../services/auth");
+import { getUser } from "../services/auth.js";
 
 function restrictToLoggedIn(req, res, next) {
   const token = req.cookies.session_id;
@@ -14,4 +14,4 @@ function restrictToLoggedIn(req, res, next) {
   next();
 }
 
-module.exports = restrictToLoggedIn;
+export default restrictToLoggedIn;

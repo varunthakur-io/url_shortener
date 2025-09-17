@@ -1,10 +1,10 @@
 // /controllers/urlController.js
-const URL = require("../models/urlModel");
-const { nanoid } = require("nanoid");
-const { getUser } = require("../services/auth");
-const redisClient = require("../config/redis");
+import URL from "../models/urlModel.js";
+import { nanoid } from "nanoid";
+import { getUser } from "../services/auth.js";
+import redisClient from "../config/redis.js";
 
-exports.shortenURL = async (req, res) => {
+export const shortenURL = async (req, res) => {
   const { originalURL } = req.body;
   if (!req.cookies.session_id) return res.redirect("/login");
 
@@ -53,7 +53,7 @@ exports.shortenURL = async (req, res) => {
   }
 };
 
-exports.redirectURL = async (req, res) => {
+export const redirectURL = async (req, res) => {
   const { shortURL } = req.params;
 
   try {
@@ -104,7 +104,7 @@ exports.redirectURL = async (req, res) => {
   }
 };
 
-exports.deleteURL = async (req, res) => {
+export const deleteURL = async (req, res) => {
   const { id } = req.params;
 
   try {

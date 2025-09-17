@@ -1,10 +1,10 @@
 // routes/staticRoutes.js
-const express = require("express");
+import express from "express";
 const StaticRouter = express.Router();
-const redisClient = require("../config/redis");
+import redisClient from "../config/redis.js";
 
-const URL = require("../models/urlModel");
-const restrictToLoggedIn = require("../middlewares/auth");
+import URL from "../models/urlModel.js";
+import restrictToLoggedIn from "../middlewares/auth.js";
 
 StaticRouter.get("/", restrictToLoggedIn, async (req, res) => {
   const urls = await URL.find({ createdBy: req.user._id });
@@ -66,4 +66,4 @@ StaticRouter.get("/profile", restrictToLoggedIn, (req, res) => {
 StaticRouter.get("/test", (req, res) => {
   res.render("test");
 });
-module.exports = StaticRouter;
+export default StaticRouter;

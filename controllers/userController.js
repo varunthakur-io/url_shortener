@@ -1,9 +1,9 @@
-const bcrypt = require("bcrypt");
-const User = require("../models/userModel");
+import bcrypt from "bcrypt";
+import User from "../models/userModel.js";
 // const { v4: uuidv4 } = require("uuid");
-const { setUser } = require("../services/auth");
+import { setUser } from "../services/auth.js";
 
-exports.login = async (req, res) => {
+export const login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
@@ -30,7 +30,7 @@ exports.login = async (req, res) => {
   }
 };
 
-exports.signup = async (req, res) => {
+export const signup = async (req, res) => {
   const { name, email, username, password } = req.body;
 
   try {
@@ -66,12 +66,12 @@ exports.signup = async (req, res) => {
   }
 };
 
-exports.logout = async (req, res) => {
+export const logout = async (req, res) => {
   res.clearCookie("session_id");
   return res.redirect("/login");
 };
 
-exports.updateUser = async (req, res) => {
+export const updateUser = async (req, res) => {
   const userId = req.user._id;
   const { name, email, username } = req.body;
 
@@ -108,3 +108,4 @@ exports.updateUser = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+

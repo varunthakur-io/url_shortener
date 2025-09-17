@@ -1,5 +1,5 @@
 // services/auth.js
-const jwt = require("jsonwebtoken");
+import jwt from "jsonwebtoken";
 const key = `${process.env.JWT_SECRET}`;
 function setUser(user) {
   return jwt.sign(JSON.stringify(user), key);
@@ -12,7 +12,4 @@ function getUser(user) {
   }
 }
 
-module.exports = {
-  setUser,
-  getUser,
-};
+export { setUser, getUser };
