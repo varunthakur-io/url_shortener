@@ -1,6 +1,6 @@
 // /controllers/urlController.js
 const URL = require("../models/urlModel");
-const shortid = require("shortid");
+const { nanoid } = require("nanoid");
 const { getUser } = require("../services/auth");
 const redisClient = require("../config/redis");
 
@@ -19,7 +19,7 @@ exports.shortenURL = async (req, res) => {
     if (url) {
       return res.json({ msg: "URL_EXISTS" });
     } else {
-      const shortURL = shortid.generate();
+      const shortURL = nanoid(8);
       const newURL = new URL({
         originalURL,
         shortURL,
@@ -117,7 +117,9 @@ exports.deleteURL = async (req, res) => {
     // Optionally, update the Redis cache if needed
     let cachedUrls = await redisClient.get("urls");
     if (cachedUrls) {
-      cachedUrls = JSON.parse(cachedUrls).filter((cachedUrl) => cachedUrl._id !== id);
+      cachedUrls = JSON.parse(cachedUrls).filter(
+        (cachedUrl) => cachedUrl._id !== id
+      );
       redisClient.set("urls", JSON.stringify(cachedUrls), "EX", 3600); // Cache expires in 1 hour
     }
 
