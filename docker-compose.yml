@@ -1,7 +1,9 @@
+name: url-shortener
+
 services:
   # 🗄️ MongoDB Service
-  mongodb:
-    container_name: mongodb_container
+  mongo_db:
+    container_name: mongo_db_container
     image: mongo:latest
     restart: always
     ports:
@@ -10,38 +12,29 @@ services:
       - mongodb_data:/data/db
 
   # 🔁 Redis Service
-  redis_stack:
-    container_name: redis_stack_container
-    image: redis/redis-stack:latest
+  redis_server:
+    container_name: redis_container
+    image: redis:alpine
     restart: always
     ports:
       - 6379:6379
-      - 8001:8001
 
   # 🚀 Node.js API Service
-  url_shortener_api:
+  url_shortener_app:
     build: .
-    image: url_shortener_app:latest
+    image: url-shortener-app:latest
     container_name: url_shortener_container
     ports:
       - 3000:3000
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
-    environment:
-      # MongoDB Configuration
-      DB_HOST: mongodb
-      DB_PORT: 27017
-      DB_NAME: url_shortener_db
-
-      # Redis Configuration
-      REDIS_HOST: redis_stack
-      REDIS_PORT: 6379
-    command: npm run dev
+    env_file:
+      - .env
     depends_on:
-      - mongodb
-      - redis_stack
+      - mongo_db
+      - redis_server
 
 volumes:
   mongodb_data:
-    name: mongodb_data
+    name: url_shortener_mongodb_data
