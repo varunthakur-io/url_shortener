@@ -1,11 +1,19 @@
 /* eslint-env jest */
 /* global jest, describe, it, expect */
 
-import { setUser, getUser } from "../services/auth.js";
-import jwt from "jsonwebtoken";
+import { jest } from '@jest/globals';
 
-// Mock the jsonwebtoken library
-jest.mock("jsonwebtoken");
+// Mock the jsonwebtoken library before importing services
+jest.unstable_mockModule("jsonwebtoken", () => ({
+  default: {
+    sign: jest.fn(),
+    verify: jest.fn(),
+  },
+}));
+
+// Use dynamic import to ensure the mock is applied
+const { setUser, getUser } = await import("../services/auth.js");
+const { default: jwt } = await import("jsonwebtoken");
 
 describe("Auth Service", () => {
   const user = { id: 1, email: "test@example.com" };
