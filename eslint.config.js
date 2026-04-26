@@ -1,27 +1,46 @@
-import globals from "globals";
-import pluginJs from "@eslint/js";
-import pluginPrettier from "eslint-plugin-prettier";
-import configPrettier from "eslint-config-prettier";
+import globals from 'globals';
+import js from '@eslint/js';
+import prettierPlugin from 'eslint-plugin-prettier';
+import prettierConfig from 'eslint-config-prettier';
 
 export default [
+  // Ignore files
   {
+    ignores: ['node_modules', 'dist', 'build', 'coverage', '*.log', 'docker-compose.yml'],
+  },
+
+  // Base config for Node backend
+  {
+    files: ['**/*.js'],
     languageOptions: {
-      ecmaVersion: 2021,
-      sourceType: "module",
+      ecmaVersion: 'latest',
+      sourceType: 'module',
       globals: {
         ...globals.node,
       },
     },
   },
-  pluginJs.configs.recommended,
+
+  // ESLint recommended rules
+  js.configs.recommended,
+
+  // Custom backend rules
+  {
+    rules: {
+      'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+      'no-console': 'off', // allowed in backend
+      'no-debugger': 'warn',
+    },
+  },
+
+  // Prettier integration
   {
     plugins: {
-      prettier: pluginPrettier,
+      prettier: prettierPlugin,
     },
     rules: {
-      ...configPrettier.rules,
-      "prettier/prettier": "error",
-      "no-console": "allow",
+      ...prettierConfig.rules,
+      'prettier/prettier': 'error',
     },
   },
 ];

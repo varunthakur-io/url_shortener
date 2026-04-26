@@ -1,18 +1,16 @@
 {
   "name": "url_shortner",
   "version": "1.0.0",
-  "description": "",
+  "description": "URL shortener with Express, MongoDB, Redis",
   "main": "src/app.js",
   "type": "module",
   "scripts": {
     "start": "node src/app.js",
-    "dev": "nodemon --legacy-watch src/app.js",
+    "dev": "nodemon src/app.js",
     "lint": "eslint .",
-    "format": "prettier --write .",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write ."
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.6",
@@ -27,10 +25,11 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
+    "@eslint/js": "^9.35.0",
+    "globals": "^15.8.0",
     "eslint": "^9.35.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
-    "jest": "^30.1.3",
     "nodemon": "^3.1.0",
     "prettier": "^3.6.2"
   }

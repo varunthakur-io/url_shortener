@@ -1,0 +1,17 @@
+node_modules
+dist
+build
+coverage
+
+# logs
+*.log
+
+# env files
+.env
+.env.*
+
+# docker
+docker-compose.yml
+
+# optional
+package-lock.json
