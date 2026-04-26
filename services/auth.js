@@ -1,9 +1,11 @@
-// services/auth.js
-import jwt from "jsonwebtoken";
-const key = `${process.env.JWT_SECRET}`;
+import jwt from 'jsonwebtoken';
+import { config } from '../config/index.js';
+const key = config.jwtSecret;
+
 function setUser(user) {
   return jwt.sign(JSON.stringify(user), key);
 }
+
 function getUser(user) {
   try {
     return jwt.verify(user, key);

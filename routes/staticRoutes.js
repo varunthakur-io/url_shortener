@@ -1,7 +1,6 @@
-// routes/staticRoutes.js
 import express from "express";
 const StaticRouter = express.Router();
-import redisClient from "../config/redis.js";
+import { redisClient } from "../config/index.js";
 
 import URL from "../models/urlModel.js";
 import restrictToLoggedIn from "../middlewares/auth.js";

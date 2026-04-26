@@ -1,11 +1,11 @@
 // Import required modules
 import express from "express";
-import mongoose from "mongoose";
 import "dotenv/config";
 import staticRoute from "./routes/staticRoutes.js";
 import userRoute from "./routes/userRoutes.js";
 import urlRoute from "./routes/urlRoutes.js";
 import cookieParser from "cookie-parser";
+import { config, mongooseConnection } from "./config/index.js";
 
 // Create Express app
 const app = express();
@@ -19,19 +19,25 @@ app.set("view engine", "ejs"); // Set EJS as the view engine
 // Set up static files serving
 app.use(express.static("./public"));
 
-// Connect to MongoDB
-mongoose
-  .connect(`mongodb://${process.env.DB_HOST}/${process.env.DB_NAME}`)
-  .then(() => console.log("Connected to MongoDB"))
-  .catch((err) => console.error("Failed to connect to MongoDB", err));
-
 // Define routes
 app.use("/", staticRoute);
 app.use("/user", userRoute);
 app.use("/url", urlRoute);
 
-// Start the server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server started at port ${PORT}`);
-});
+// Connect and Start Server
+const startServer = async () => {
+  try {
+    // Wait for Mongoose to connect
+    await mongooseConnection;
+
+    // Start the server
+    app.listen(config.port, () => {
+      console.log(`Server started at port ${config.port}`);
+    });
+  } catch (err) {
+    console.error("Failed to start server:", err);
+    process.exit(1);
+  }
+};
+
+startServer();

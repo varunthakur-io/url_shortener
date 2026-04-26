@@ -1,8 +1,7 @@
-// /controllers/urlController.js
 import URL from "../models/urlModel.js";
 import { nanoid } from "nanoid";
 import { getUser } from "../services/auth.js";
-import redisClient from "../config/redis.js";
+import { redisClient } from "../config/index.js";
 
 export const shortenURL = async (req, res) => {
   const { originalURL } = req.body;
