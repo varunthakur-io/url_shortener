@@ -1,23 +1,21 @@
-import redis from "redis";
+import redis from 'redis';
+import { env } from './env.js';
 
-// Create a Redis client
-// const redisClient = redis.createClient({
-//   url: "redis://localhost:6379", // Redis server URL
-// });
-
-// Use the Redis service name from Docker Compose instead of localhost
 const redisClient = redis.createClient({
-  url: `redis://${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`,
+  url: `redis://${env.redis.host}:${env.redis.port}`,
 });
 
-redisClient
-  .connect()
-  .then(() => console.log("Connected to Redis"))
-  .catch((err) => console.error("Redis connection error:", err));
+if (env.nodeEnv !== 'test') {
+  redisClient
+    .connect()
+    .then(() => console.log('Connected to Redis'))
+    .catch((err) => console.error('Redis connection error:', err));
+}
 
-// Check for Redis connection errors
-redisClient.on("error", (err) => {
-  console.error("Redis error:", err);
+redisClient.on('error', (err) => {
+  if (env.nodeEnv !== 'test') {
+    console.error('Redis error:', err);
+  }
 });
 
 export default redisClient;
