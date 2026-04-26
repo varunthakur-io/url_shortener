@@ -24,6 +24,7 @@ services:
     build: .
     image: url-shortener-app:latest
     container_name: url_shortener_container
+    command: npm run dev
     ports:
       - 3000:3000
     volumes:

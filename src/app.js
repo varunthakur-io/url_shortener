@@ -1,11 +1,17 @@
 // Import required modules
 import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
 import "dotenv/config";
 import staticRoute from "./routes/staticRoutes.js";
 import userRoute from "./routes/userRoutes.js";
 import urlRoute from "./routes/urlRoutes.js";
 import cookieParser from "cookie-parser";
 import { config, mongooseConnection } from "./config/index.js";
+
+// Setup __dirname for ESM
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Create Express app
 const app = express();
@@ -15,9 +21,10 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "ejs"); // Set EJS as the view engine
+app.set("views", path.join(__dirname, "views"));
 
 // Set up static files serving
-app.use(express.static("./public"));
+app.use(express.static(path.join(__dirname, "../public")));
 
 // Define routes
 app.use("/", staticRoute);

@@ -12,7 +12,7 @@ jest.unstable_mockModule("jsonwebtoken", () => ({
 }));
 
 // Use dynamic import to ensure the mock is applied
-const { setUser, getUser } = await import("../services/auth.js");
+const { setUser, getUser } = await import("../src/services/auth.js");
 const { default: jwt } = await import("jsonwebtoken");
 
 describe("Auth Service", () => {

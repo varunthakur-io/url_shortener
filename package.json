@@ -2,11 +2,11 @@
   "name": "url_shortner",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "src/app.js",
   "type": "module",
   "scripts": {
-    "start": "node app.js",
-    "dev": "nodemon --legacy-watch app.js",
+    "start": "node src/app.js",
+    "dev": "nodemon --legacy-watch src/app.js",
     "lint": "eslint .",
     "format": "prettier --write .",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
@@ -18,7 +18,7 @@
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
-    "express": "^4.19.2",
+    "express": "^5.2.1",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.3.3",
     "multer": "^1.4.5-lts.1",
