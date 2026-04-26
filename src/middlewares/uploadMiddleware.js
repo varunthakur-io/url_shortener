@@ -1,13 +1,13 @@
 // middlewares/uploadMiddleware.js
 
-import multer from "multer";
-import path from "path";
-import fs from "fs";
+import multer from 'multer';
+import path from 'path';
+import fs from 'fs';
 
 // Define storage settings using diskStorage
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    const userDir = path.join("public", "profilePic", req.user._id);
+    const userDir = path.join('public', 'profilePic', req.user._id);
 
     // Check if the user upload directory exists
     fs.access(userDir, fs.constants.F_OK, (err) => {

@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const urlSchema = new mongoose.Schema(
   {
@@ -22,12 +22,12 @@ const urlSchema = new mongoose.Schema(
     ], // Array to store visit history
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "users",
+      ref: 'users',
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-const URL = mongoose.model("URL", urlSchema);
+const URL = mongoose.model('URL', urlSchema);
 
 export default URL;

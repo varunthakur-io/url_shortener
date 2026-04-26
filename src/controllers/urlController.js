@@ -1,14 +1,14 @@
-import URL from "../models/urlModel.js";
-import { nanoid } from "nanoid";
-import { getUser } from "../services/auth.js";
-import { redisClient } from "../config/index.js";
+import URL from '../models/urlModel.js';
+import { nanoid } from 'nanoid';
+import { getUser } from '../services/auth.js';
+import { redisClient } from '../config/index.js';
 
 export const shortenURL = async (req, res) => {
   const { originalURL } = req.body;
-  if (!req.cookies.session_id) return res.redirect("/login");
+  if (!req.cookies.session_id) return res.redirect('/login');
 
   const user = getUser(req.cookies.session_id);
-  if (!user) return res.redirect("/login");
+  if (!user) return res.redirect('/login');
 
   const createdBy = user._id;
 
@@ -16,7 +16,7 @@ export const shortenURL = async (req, res) => {
     let url = await URL.findOne({ originalURL });
 
     if (url) {
-      return res.json({ msg: "URL_EXISTS" });
+      return res.json({ msg: 'URL_EXISTS' });
     } else {
       const shortURL = nanoid(8);
       const newURL = new URL({
@@ -28,7 +28,7 @@ export const shortenURL = async (req, res) => {
       url = await newURL.save();
 
       // Fetch the existing cache
-      let cachedUrls = await redisClient.get("urls");
+      let cachedUrls = await redisClient.get('urls');
 
       if (cachedUrls) {
         // Parse the cached data
@@ -38,17 +38,17 @@ export const shortenURL = async (req, res) => {
         cachedUrls.push(url);
 
         // Save the updated cache back to Redis
-        redisClient.set("urls", JSON.stringify(cachedUrls), "EX", 3600); // Cache expires in 1 hour
+        redisClient.set('urls', JSON.stringify(cachedUrls), 'EX', 3600); // Cache expires in 1 hour
       }
 
       return res.json({
-        msg: "URL_SHORTENED",
+        msg: 'URL_SHORTENED',
         id: shortURL,
       });
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Server error" });
+    res.status(500).json({ error: 'Server error' });
   }
 };
 
@@ -57,7 +57,7 @@ export const redirectURL = async (req, res) => {
 
   try {
     // Check if the URL exists in the Redis cache
-    let cachedUrls = await redisClient.get("urls");
+    let cachedUrls = await redisClient.get('urls');
     let url;
 
     if (cachedUrls) {
@@ -69,7 +69,7 @@ export const redirectURL = async (req, res) => {
         url.visits.push({ timestamp: new Date() });
 
         // Update the Redis cache
-        redisClient.set("urls", JSON.stringify(cachedUrls), "EX", 3600); // Cache expires in 1 hour
+        redisClient.set('urls', JSON.stringify(cachedUrls), 'EX', 3600); // Cache expires in 1 hour
 
         // Redirect to the original URL
         return res.redirect(url.originalURL);
@@ -80,7 +80,7 @@ export const redirectURL = async (req, res) => {
     url = await URL.findOne({ shortURL });
 
     if (!url) {
-      return res.status(404).json({ error: "URL not found" });
+      return res.status(404).json({ error: 'URL not found' });
     }
 
     // Log visit information in the database
@@ -93,13 +93,13 @@ export const redirectURL = async (req, res) => {
     } else {
       cachedUrls = [url];
     }
-    redisClient.set("urls", JSON.stringify(cachedUrls), "EX", 3600); // Cache expires in 1 hour
+    redisClient.set('urls', JSON.stringify(cachedUrls), 'EX', 3600); // Cache expires in 1 hour
 
     // Redirect to the original URL
     res.redirect(url.originalURL);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Server error" });
+    res.status(500).json({ error: 'Server error' });
   }
 };
 
@@ -110,21 +110,19 @@ export const deleteURL = async (req, res) => {
     const url = await URL.findByIdAndDelete(id);
 
     if (!url) {
-      return res.status(404).json({ error: "URL not found" });
+      return res.status(404).json({ error: 'URL not found' });
     }
 
     // Optionally, update the Redis cache if needed
-    let cachedUrls = await redisClient.get("urls");
+    let cachedUrls = await redisClient.get('urls');
     if (cachedUrls) {
-      cachedUrls = JSON.parse(cachedUrls).filter(
-        (cachedUrl) => cachedUrl._id !== id
-      );
-      redisClient.set("urls", JSON.stringify(cachedUrls), "EX", 3600); // Cache expires in 1 hour
+      cachedUrls = JSON.parse(cachedUrls).filter((cachedUrl) => cachedUrl._id !== id);
+      redisClient.set('urls', JSON.stringify(cachedUrls), 'EX', 3600); // Cache expires in 1 hour
     }
 
-    return res.status(200).json({ message: "URL deleted successfully" });
+    return res.status(200).json({ message: 'URL deleted successfully' });
   } catch (error) {
-    console.error("Error deleting URL:", error);
-    return res.status(500).json({ error: "Server error" });
+    console.error('Error deleting URL:', error);
+    return res.status(500).json({ error: 'Server error' });
   }
 };

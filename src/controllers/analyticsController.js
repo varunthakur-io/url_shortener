@@ -1,4 +1,4 @@
-import URL from "../models/urlModel.js";
+import URL from '../models/urlModel.js';
 
 export const getAnalytics = async (req, res) => {
   try {
@@ -6,7 +6,7 @@ export const getAnalytics = async (req, res) => {
     const result = await URL.findOne({ shortURL: short_id });
 
     if (!result) {
-      return res.status(404).json({ error: "URL not found" });
+      return res.status(404).json({ error: 'URL not found' });
     }
 
     const total_clicks = result.visits.length;
@@ -17,6 +17,6 @@ export const getAnalytics = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Server error" });
+    res.status(500).json({ error: 'Server error' });
   }
 };
